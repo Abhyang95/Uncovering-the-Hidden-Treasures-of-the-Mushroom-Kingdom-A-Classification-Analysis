@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Prediction Result</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:url("/static/images/bg.jpg");
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.overlay{
+    background:rgba(0,0,0,0.65);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.card{
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.08);
+    padding:50px;
+    border-radius:15px;
+    text-align:center;
+    width:450px;
+}
+
+h2{
+    font-size:28px;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    border:none;
+    background:#2196F3;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+    
+<div class="overlay">
+
+
+<div class="card">
+  <p class="result-desc">
+    This AI system analyzes visual patterns from the uploaded mushroom image using a deep learning model to produce an accurate classification result. The prediction is intended to support learning, research exploration, and safer mushroom identification.
+    </p>
+    
+<h2>The Mushroom is {{ prediction }}</h2>
+
+<form action="/" method="get">
+    <button type="submit">Try Different Image</button>
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

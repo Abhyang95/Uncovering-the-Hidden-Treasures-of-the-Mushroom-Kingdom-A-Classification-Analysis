@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mushroom Classifier</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:url("/static/images/bg.jpg")no-repeat center center fixed;
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+/* NAVBAR */
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:rgba(0,0,0,0.7);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 30px;
+    box-sizing:border-box;
+    z-index:1000;
+    backdrop-filter:blur(10px);
+}
+
+.nav-title{
+    font-size:32px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+
+.about-btn{
+    background:#2196F3;
+    border:none;
+    color:white;
+    padding:8px 15px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* ABOUT MODAL */
+.about-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    justify-content:center;
+    align-items:center;
+    z-index:2000;
+}
+
+.about-content{
+    background:#111;
+    padding:30px;
+    border-radius:12px;
+    width:420px;
+    text-align:center;
+}
+
+.close{
+    float:right;
+    cursor:pointer;
+    font-size:22px;
+}
+
+/* DESCRIPTION SECTION */
+.context-box{
+    margin-top:90px;
+    text-align:center;
+    padding:20px;
+    max-width:700px;
+    margin-left:auto;
+    margin-right:auto;
+    background:rgba(95, 56, 56, 0); /* lighter */
+    border-radius:12px;
+}
+
+
+/* MAIN UI */
+.overlay{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+    background:none;   /* remove dark full band */
+}
+
+
+.card{
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.08);
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    width:420px;
+}
+
+.upload-box{
+    border:2px dashed #aaa;
+    padding:30px;
+    border-radius:12px;
+}
+
+.upload-icon{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+input[type=file]{
+    display:none;
+}
+
+.custom-file{
+    background:#4CAF50;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    display:inline-block;
+    margin-top:10px;
+}
+
+button{
+    margin-top:15px;
+    padding:10px 25px;
+    border:none;
+    background:#2196F3;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#file-name{
+    margin-top:8px;
+    font-size:14px;
+}
+
+#preview{
+    margin:12px auto 0 auto;
+    max-width:200px;
+    display:block;
+    border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-title">Mushroom Insight AI</div>
+    <button class="about-btn" onclick="openAbout()">About</button>
+</div>
+
+<!-- ABOUT POPUP -->
+<div id="aboutModal" class="about-modal">
+    <div class="about-content">
+        <span class="close" onclick="closeAbout()">&times;</span>
+        <h2>About This Project</h2>
+        <p style="font-size:22px;">
+        This web application leverages deep learning and 
+        computer vision techniques to analyze uploaded mushroom images and 
+        deliver accurate species classification, supporting education, 
+        scientific research, and safer identification while reducing the risk of harmful misclassification.”
+        </p>
+    </div>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="context-box">
+<h1>Explore Mushrooms with AI</h1>
+<p style="font-size:20px;">
+Mushrooms are incredibly diverse organisms, 
+with thousands of species ranging from edible to highly toxic,
+making accurate identification essential for safety and research.
+This AI-powered system uses deep learning and computer vision to analyze visual features 
+from uploaded images and classify mushroom species, helping learners, foragers,
+and researchers explore and identify fungi more safely and efficiently
+</p>
+</div>
+
+<!-- UPLOAD AREA -->
+<div class="overlay">
+
+<div class="card">
+
+<h2>Drop file to upload</h2>
+
+<form action="/predict" method="POST" enctype="multipart/form-data">
+
+<div class="upload-box">
+
+<div class="upload-icon">
+<i class="fa-solid fa-cloud-arrow-up"></i>
+</div>
+
+<label class="custom-file">
+Choose File
+<input type="file" name="file" required onchange="showFile(this)">
+</label>
+
+<div id="file-name"></div>
+<img id="preview">
+
+<br>
+<button type="submit">Classify</button>
+
+</div>
+</form>
+
+</div>
+</div>
+
+<script>
+
+function showFile(input){
+
+    let file=input.files[0];
+
+    if(file){
+        document.getElementById("file-name").innerText=file.name;
+
+        let reader=new FileReader();
+
+        reader.onload=function(e){
+            let img=document.getElementById("preview");
+            img.src=e.target.result;
+            img.style.display="block";
+        }
+
+        reader.readAsDataURL(file);
+    }
+}
+
+function openAbout(){
+    document.getElementById("aboutModal").style.display="flex";
+}
+
+function closeAbout(){
+    document.getElementById("aboutModal").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
